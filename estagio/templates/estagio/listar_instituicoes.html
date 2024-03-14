@@ -1,0 +1,42 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_estagio.html' %}
+{% endblock %}
+{% block css %} {% endblock %}
+{% block main %}
+    <div class="row">
+      <div class="col d-flex">
+        <h1>Instituições conveniadas</h1>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col pb-5 d-flex">
+        <p class="text-secondary"><i>Conheça as instituições de nível tecnico e superior conveniadas a Prefeitura de Nova Friburgo e suas respectivas possibilidades de estágio!</i></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col d-flex flex-wrap">
+        {% for instituicao in  instituicoes %}
+        <div class="item mx-auto mb-4 border">
+          <div class="c-img pt-4 px-4" style="position: relative;">
+            <img class="img-fluid" style="border-radius: 10px;" src="{% if instituicao.logo %}{{instituicao.logo.url}}{% else %}{% static 'images/sem-imagem.png' %}{% endif %}" alt="">
+          </div>
+          <div class="cursos-text mx-2 d-flex flex-column">
+            {% if not instituicao.logo %}
+            <p class="text-center">{{instituicao.nome}}</p>
+            {% endif %}
+            <a href="{% url 'estagio:listar_cursos_e_locais' instituicao.id %}" class="my-3 mx-auto">Ver cursos e locais de estágio</a>
+            <p class="text-secondary" style="font-size: 7pt; text-align: right;">Vencimento: {% if instituicao.dt_vencimento_do_termo %}{{instituicao.dt_vencimento_do_termo|date:"d/m/y"}}{% else %}Não cadastrado{% endif %}</p>
+          </div>
+      </div>
+      {% endfor %}
+      </div>
+    </div>
+    <script>
+     document.getElementById('s-vagas').classList.add('s-nav-active');
+    </script>
+{% endblock %}
+{% block footer %}
+{% include 'desenvolve_nf/instagram.html' %}
+{% endblock %}

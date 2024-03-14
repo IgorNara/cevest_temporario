@@ -1,0 +1,128 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static %}
+{% block nav %}
+{% include 'nav_estagio.html' %}
+{% endblock %}
+{% block css %} {% endblock %}
+{% block main %}
+<div class="d-flex flex-wrap">        
+    <!-- <h1 id="go">Vaga de estágio</h1>    -->
+    <a href="{% url 'estagio:listar_cursos_e_locais' curso.universidade.id %}" class="btn btn-secondary ms-auto my-auto">
+        Voltar
+    </a>          
+  </div>
+  {% if forms_vaga.errors.vaga %}
+                <div class="text-white bg-danger text-center rounded mt-3  py-3">
+                    {{forms_vaga.vaga.errors}}
+                    <!-- O seu curso não corresponde com o da vaga! Tente outro. -->
+                </div>
+                {% endif %}
+       <div class="row mb-5">
+        <div class="col-6 mx-auto pt-4 pe-5">
+            <h2 class="">Formulário para solicitação de estágio</h2>                    
+            <form method="POST">                
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        {% bootstrap_form forms_estudante %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex flex-column">
+                        {% bootstrap_form forms_vaga %}
+                        <small class="mx-auto mb-3 text-danger w-100 text-center" id="checkResponse"></small>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary w-100">
+                            Candidatar-se
+                        </button>                       
+                    </div>
+                </div>
+               </form>
+        </div>
+       </div>
+<style>
+    li{
+        list-style: none;
+    }
+    .nonfield{
+        display: none;
+    }
+    .form-control{
+        border-radius: 10px !important;
+    }
+    .form-select{
+        border-radius: 10px !important;
+    }
+</style>
+<script>
+    cursos=[
+        {% for curso in local.cursos.all %}
+            '{{curso.nome}}',
+        {% endfor %}
+    ]
+    curso_atual = '{{forms_estudante.curso.value}}'
+
+    function getCsrfToken() {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            return csrfToken;
+        }
+    function checkVaga(selectElement){
+        var selectedIndex = selectElement.selectedIndex;
+        var selectedText = selectElement.options[selectedIndex].text;
+        console.log(selectedText)
+        console.log(cursos.includes(selectedText))
+        if(cursos.includes(selectedText)){
+            document.getElementById('checkResponse').innerHTML = '';
+            document.querySelector('button[type="submit"]').disabled = false;
+        }else{
+            document.getElementById('checkResponse').innerHTML = 'O seu curso não corresponde com o da vaga! Tente outro.';
+            document.querySelector('button[type="submit"]').disabled = true;
+        }
+    }
+    // quero que o campo universidade caso seja difretente de '---------' rode a funcao get_cursos
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     document.getElementById('s-vagas').classList.add('s-nav-active');
+    //     var universidadeSelect = document.getElementById('id_universidade'); // Substitua pelo ID correto do elemento
+    //     var selectedValue = universidadeSelect.value;
+        
+    //     if (selectedValue !== '---------' && selectedValue !== '') {
+    //         get_cursos(selectedValue);
+    //     }else{
+    //         document.getElementById('id_curso').innerHTML = '<option value="" selected>---------</option>';
+    //     }
+       
+    // })
+
+    function get_cursos(university_id) {
+    fetch('/estagio/get_courses_by_university/'+ university_id, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        var cursoSelect = document.getElementById('id_curso');
+        cursoSelect.innerHTML = ''; // Limpa as opções atuais
+        data.forEach(course => {
+            var option = document.createElement('option');
+            option.value = course.id;
+            option.text = course.nome;
+            cursoSelect.appendChild(option);
+        });
+    })
+    .catch(error => {
+        console.error('Erro ao buscar cursos:', error);
+    });
+}
+
+</script>
+{% endblock %}
+{% block footer %}
+{% include 'desenvolve_nf/instagram.html' %}
+{% endblock %}
