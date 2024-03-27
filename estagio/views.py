@@ -473,7 +473,6 @@ def cadastrar_vagas(request):
     }
     return render(request, 'estagio/cadastrar_vagas.html', context)
 
-
 def editar_vagas(request, id):
     instance = Vagas.objects.get(id=id)
     forms = Editar_Vaga_form(instance=instance)
