@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'bootstrap5',
     'fontawesomefree',
     'colorfield',
+    'bootstrapform'
     #padrão
     'django.contrib.admin',
     'django.contrib.auth',
