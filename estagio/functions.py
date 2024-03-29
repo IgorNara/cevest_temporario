@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mail, BadHeaderError
 from django.shortcuts import redirect
 from django.http import HttpResponse
+from django.utils.encoding import force_text
 
 def send_email_for_process(instance, historico):
     subject = "Alteração de status no seu processo de Estágio no sistema Desenvolve NF"
@@ -15,16 +16,17 @@ def send_email_for_process(instance, historico):
     else:
         local_do_estagio = instance.local_do_estagio_de_pretensao.local
     c = {
-        "email": instance.estudante.pessoa.user.email,
+        "email": force_text(instance.estudante.pessoa.user.email),
         'domain': 'desenvolve.novafriburgo.rj.gov.br/estagio/area-do-estudante/',
         'site_name': 'Desenvolve NF',
-        "user": instance.estudante.pessoa.user,
+        "user": force_text(instance.estudante.pessoa.user),
         'protocol': 'https',
-        'estudante': instance.estudante,
-        'local_do_estagio': local_do_estagio,
-        'historico': historico,
-        'msg': historico.mensagem,
+        'estudante': force_text(instance.estudante),
+        'local_do_estagio': force_text(local_do_estagio),
+        'historico': force_text(historico),
+        'msg': force_text(historico.mensagem),
     }
+    
     email = render_to_string(email_template_name, c)
     try:
         send_mail(subject, email, instance.estudante.pessoa.user.email, [
