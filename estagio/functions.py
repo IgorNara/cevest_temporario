@@ -9,37 +9,22 @@ from django.utils.encoding import force_text
 
 def send_email_for_process(instance, historico):
     subject = "Alteração de status no seu processo de Estágio no sistema Desenvolve NF"
-    email_template_name = force_text("estagio/email_atualização_processo.txt")
-
-    
+    email_template_name = "estagio/estagio/email_atualização_processo.txt"
     
     if instance.local_do_estagio:
         local_do_estagio = instance.local_do_estagio.local
     else:
         local_do_estagio = instance.local_do_estagio_de_pretensao.local
     c = {
-        # "email": force_text(instance.estudante.pessoa.user.email),
-        "email": "igornaravieira@gmail.com",
-
+        "email": force_text(instance.estudante.pessoa.user.email),
         'domain': 'desenvolve.novafriburgo.rj.gov.br/estagio/area-do-estudante/',
         'site_name': 'Desenvolve NF',
-
-        # "user": force_text(instance.estudante.pessoa.user),
-        "user": "Igor",
-
+        "user": force_text(instance.estudante.pessoa.user),
         'protocol': 'https',
-
-        # 'estudante': force_text(instance.estudante),
-        'estudante': "Igor",
-
-        # 'local_do_estagio': force_text(local_do_estagio),
-        'local_do_estagio': "teste",
-
-        # 'historico': force_text(historico),
-        'historico': "teste",
-
-        # 'msg': force_text(historico.mensagem),
-        'msg': "teste",
+        'estudante': force_text(instance.estudante),
+        'local_do_estagio': force_text(local_do_estagio),
+        'historico': force_text(historico),
+        'msg': force_text(historico.mensagem),
     }
     # print(f"SUBJECT: {subject}. EMAIL TEMPLATE NAME: {email_template_name}. EMAIL: {instance.estudante.pessoa.user.email}, 
     #       USER: {instance.estudante.pessoa.user}. ESTUDANTE: {instance.estudante}. HISTORICO: {historico}. MSG: {historico.mensagem}")
