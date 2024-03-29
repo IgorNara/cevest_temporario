@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.utils.encoding import force_text
 
 def send_email_for_process(instance, historico):
-    subject = "Alteração de status no seu processo de Estágio no sistema Desenvolve NF"
+    subject = "Alteração de status no seu processo de Estágio"
     email_template_name = "estagio/email_atualizacao_processo.txt"
     
     if instance.local_do_estagio:

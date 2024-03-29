@@ -1,5 +1,5 @@
 {% autoescape off %}
-SISTEMA DE ESTÁGIO - DESENVOLVE NOVA FRIBURGO
+SISTEMA DE ESTÁGIO
 (Esta mensagem foi enviada automaticamente. Por favor, não responda a este e-mail.)
 
 Olá, {{ user.first_name }},
