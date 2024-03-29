@@ -18,18 +18,31 @@ def send_email_for_process(instance, historico):
     else:
         local_do_estagio = instance.local_do_estagio_de_pretensao.local
     c = {
-        "email": force_text(instance.estudante.pessoa.user.email),
+        # "email": force_text(instance.estudante.pessoa.user.email),
+        "email": "igornaravieira@gmail.com",
+
         'domain': 'desenvolve.novafriburgo.rj.gov.br/estagio/area-do-estudante/',
         'site_name': 'Desenvolve NF',
-        "user": force_text(instance.estudante.pessoa.user),
+
+        # "user": force_text(instance.estudante.pessoa.user),
+        "user": "Igor",
+
         'protocol': 'https',
-        'estudante': force_text(instance.estudante),
-        'local_do_estagio': force_text(local_do_estagio),
-        'historico': force_text(historico),
-        'msg': force_text(historico.mensagem),
+
+        # 'estudante': force_text(instance.estudante),
+        'estudante': "Igor",
+
+        # 'local_do_estagio': force_text(local_do_estagio),
+        'local_do_estagio': "teste",
+
+        # 'historico': force_text(historico),
+        'historico': "teste",
+
+        # 'msg': force_text(historico.mensagem),
+        'msg': "teste",
     }
-    print(f"SUBJECT: {subject}. EMAIL TEMPLATE NAME: {email_template_name}. EMAIL: {instance.estudante.pessoa.user.email}, 
-          USER: {instance.estudante.pessoa.user}. ESTUDANTE: {instance.estudante}. HISTORICO: {historico}. MSG: {historico.mensagem}")
+    # print(f"SUBJECT: {subject}. EMAIL TEMPLATE NAME: {email_template_name}. EMAIL: {instance.estudante.pessoa.user.email}, 
+    #       USER: {instance.estudante.pessoa.user}. ESTUDANTE: {instance.estudante}. HISTORICO: {historico}. MSG: {historico.mensagem}")
     email = render_to_string(email_template_name, c)
     try:
         send_mail(subject, email, instance.estudante.pessoa.user.email, [
