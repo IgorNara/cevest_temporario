@@ -23,7 +23,7 @@ def send_email_for_process(instance, historico):
         'protocol': 'https',
         'estudante': force_text(instance.estudante),
         'local_do_estagio': force_text(local_do_estagio),
-        'historico': force_text(historico),
+        'historico': historico,
         'msg': force_text(historico.mensagem),
     }
     # print(f"SUBJECT: {subject}. EMAIL TEMPLATE NAME: {email_template_name}. EMAIL: {instance.estudante.pessoa.user.email}, 
