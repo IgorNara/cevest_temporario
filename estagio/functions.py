@@ -9,7 +9,7 @@ from django.utils.encoding import force_text
 
 def send_email_for_process(instance, historico):
     subject = "Alteração de status no seu processo de Estágio no sistema Desenvolve NF"
-    email_template_name = "estagio/email_atualização_processo.txt"
+    email_template_name = force_text("estagio/email_atualização_processo.txt")
     
     if instance.local_do_estagio:
         local_do_estagio = instance.local_do_estagio.local
