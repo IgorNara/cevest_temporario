@@ -10,6 +10,8 @@ from django.utils.encoding import force_text
 def send_email_for_process(instance, historico):
     subject = "Alteração de status no seu processo de Estágio no sistema Desenvolve NF"
     email_template_name = force_text("estagio/email_atualização_processo.txt")
+
+    
     
     if instance.local_do_estagio:
         local_do_estagio = instance.local_do_estagio.local
@@ -26,7 +28,8 @@ def send_email_for_process(instance, historico):
         'historico': force_text(historico),
         'msg': force_text(historico.mensagem),
     }
-    
+    print(f"SUBJECT: {subject}. EMAIL TEMPLATE NAME: {email_template_name}. EMAIL: {instance.estudante.pessoa.user.email}, 
+          USER: {instance.estudante.pessoa.user}. ESTUDANTE: {instance.estudante}. HISTORICO: {historico}. MSG: {historico.mensagem}")
     email = render_to_string(email_template_name, c)
     try:
         send_mail(subject, email, instance.estudante.pessoa.user.email, [
