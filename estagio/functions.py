@@ -19,7 +19,7 @@ def send_email_for_process(instance, historico):
         "email": force_text(instance.estudante.pessoa.user.email),
         'domain': 'desenvolve.novafriburgo.rj.gov.br/estagio/area-do-estudante/',
         'site_name': 'Desenvolve NF',
-        "user": force_text(instance.estudante.pessoa.user),
+        "user": instance.estudante.pessoa.user,
         'protocol': 'https',
         'estudante': force_text(instance.estudante),
         'local_do_estagio': force_text(local_do_estagio),
