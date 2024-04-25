@@ -104,7 +104,7 @@ def adm_curso_editar(request, id):
 @staff_member_required
 def adm_curso_detalhes(request, id):
     curso = Curso.objects.get(id=id)
-    interessados = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=curso, alertado=False).order_by('aluno__pessoa__nome')
+    interessados = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=curso, alertado=False).order_by('dt_inclusao')
     matrizCur = Disciplinas.objects.filter(curso=curso)
 
     context = {
