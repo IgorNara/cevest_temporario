@@ -441,6 +441,7 @@ def gerar_certificados(request, id):
     data_atual = datetime.date.today()
     turma = get_object_or_404(Turma, id=id)
     matriculas=Matricula.objects.filter(turma_id=id)
+    matriculas_alunos = matriculas.filter(status='a').select_related('aluno')
     disciplinas = Disciplinas.objects.filter(curso_id=turma.curso.id)
     aux=[0,0]
     for d in disciplinas:
@@ -448,7 +449,7 @@ def gerar_certificados(request, id):
         aux[1]+=int(d.carga_horaria)
     context={
         'turma': turma,
-        'matriculas': matriculas,
+        'matriculas': matriculas_alunos,
         'data_atual': data_atual,
         'instrutor': turma.instrutores.all()[0],
         'disciplinas': disciplinas,
@@ -462,9 +463,7 @@ def adm_turmas_visualizar(request, id):
     turma = Turma.objects.get(id=id)
 
     matriculas = Matricula.objects.filter(turma=turma)
-
     matriculas_alunos = matriculas.filter(status='a').select_related('aluno')
-
     total_aulas = Aula.objects.filter(
         associacao_turma_turno__turma=turma).count()
 
